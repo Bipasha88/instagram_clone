@@ -14,9 +14,14 @@ class CreateSettingsTable extends Migration
     public function up()
     {
         Schema::create('settings', function (Blueprint $table) {
+            $table->id();
+            $table->integer('foreign_id')->unsigned();
+            $table->string('foreign_object');                       
             $table->string('key');
-            $table->string('value');
-            $table->timestamps();
+            $table->string('value')->nullable();
+
+            $table->index(['foreign_id', 'foreign_object']);        
+            $table->index(['foreign_id', 'foreign_object', 'key']);
         });
     }
 
