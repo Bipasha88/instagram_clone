@@ -1,0 +1,12 @@
+Personal access client created successfully.
+Client ID: 9285f7c7-9851-417f-b6d6-bcd2870862ba
+Client secret: zoCvX1GQIgWWe9TtQSTFMt7DAsCn49QZxwFpWWhK
+Password grant client created successfully.
+Client ID: 9285f7c7-ed65-4100-814a-7ee8fe287440
+Client secret: wkWwBs0CSBPi75DmkBUG2Xt7h8y9pkRFR5NKcO42
+
+
+New client created successfully.
+Instadevskill
+Client ID: 9285ff00-0278-40ca-b8f0-8ee7d77a217b
+Client secret: AusSSnWeeGhejBvv4gLQ0k1wjf4FmisAQ0lvYqMq
