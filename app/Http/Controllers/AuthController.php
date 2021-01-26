@@ -11,16 +11,21 @@ class AuthController extends Controller
     public function register(Request $request){
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8',
             'dob'=> 'required',
             'username'=> 'required',
             'gender'=> 'required',
-            'phone'=> 'required',
+            'phone'=> 'required|unique:users,phone',
 
         ]);
 
-        $user= User::create($request->all());
+        $user= User::create(array_merge(
+            $request->except('password'),
+            [
+                'password' => bcrypt($request->password),
+            ]
+        ));
 
         return response()->json($user);
     }
@@ -28,8 +33,8 @@ class AuthController extends Controller
     public function login(Request $request){
         $request->validate([
 
-            'email' => 'required|email|exits:users,email',
-            'password' => 'required|min:8'
+            'email' => 'required|email|exists:users,email',
+            'password' => 'required'
         ]);
 
         if (Auth::attempt([
@@ -38,10 +43,12 @@ class AuthController extends Controller
         ])){
             $user = Auth::user();
 
-            $token = $user->creatToken($user->email.'-'.now());
+
+            $token = $user->createToken($user->email.'-'.now());
+
 
             return response()->json([
-                'token' => $token->access_token
+                'token' => $token->accessToken
             ]);
         } else{
             return response()->json([
