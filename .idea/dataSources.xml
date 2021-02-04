@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+<<<<<<< HEAD
     <data-source source="LOCAL" name="insta-db@localhost" uuid="969ad1aa-ed27-4113-99c2-346b53088afa">
+=======
+    <data-source source="LOCAL" name="MySQL - insta-db@localhost" uuid="f992ff7f-bc62-4c10-afd6-c925c3df823d">
+>>>>>>> 71dc90dd39f5c1c8aaee7aee900ec5c95be8f6d2
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>

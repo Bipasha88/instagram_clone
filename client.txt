@@ -1,9 +1,18 @@
 Personal access client created successfully.
+<<<<<<< HEAD
 Client ID: 92a20d63-ba1b-4a38-af0b-882ef4e62ebf
 Client secret: 8MtvyWnQO5qU9r78UoH8xXbP4VIsovtDvPYKpJN4
 Password grant client created successfully.
 Client ID: 92a20d63-f9f8-44e7-b154-30632cc57e9c
 Client secret: AO0kFV614jFtIctao5GpZrxC7i8VBOJsGlcplcLo
+=======
+Client ID: 92948fe2-3461-459f-9ea7-67d8722b6f05
+Client secret: 9kWWGSHt6k1fajijM6VrzMs7hha27GO6InqfSp8D
+Password grant client created successfully.
+Client ID: 92948fe2-c264-45ec-b59f-452863daba40
+Client secret: PJj2jwPtBLvHpp7p2dbIaADJzt0EoLhOkXYnoGZs
+
+>>>>>>> 71dc90dd39f5c1c8aaee7aee900ec5c95be8f6d2
 
 New client created successfully.
 Instadevskill
