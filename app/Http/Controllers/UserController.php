@@ -34,4 +34,14 @@ class UserController extends Controller
         }
 
     }
+
+    public function followers(Request $request){
+        $followers = Follow::with(['user'=>function($query){
+            $query->select('id','username','name','email');
+        }])
+                    ->where('user_id',$request->user()->id)
+                    ->get()
+                    ->pluck('user');
+   return response()->json(['followers'=>$followers]);
+    }
 }
