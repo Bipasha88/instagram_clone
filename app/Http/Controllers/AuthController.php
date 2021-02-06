@@ -3,11 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Repository\Interfaces\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+    private $userRepo;
+    public function  __construct(UserRepositoryInterface $userRepository){
+        $this->userRepo = $userRepository;
+    }
     public function register(Request $request){
         $request->validate([
             'name' => 'required',
@@ -20,7 +25,7 @@ class AuthController extends Controller
 
         ]);
 
-        $user= User::create(array_merge(
+        $user= $this->userRepo->create(array_merge(
             $request->except('password'),
             [
                 'password' => bcrypt($request->password),

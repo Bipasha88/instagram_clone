@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('register',[App\Http\Controllers\AuthController::class,'register']);
 Route::post('login',[App\Http\Controllers\AuthController::class,'login']);
 
-<<<<<<< HEAD
+
 Route::middleware('auth:api')->group(function (){
     Route::get('/user', function (Request $request) {
         return $request->user();
@@ -25,8 +25,5 @@ Route::middleware('auth:api')->group(function (){
 
     Route::post('follow',[\App\Http\Controllers\UserController::class,'follow']);
     Route::get('followers',[\App\Http\Controllers\UserController::class,'followers']);
-=======
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
->>>>>>> 71dc90dd39f5c1c8aaee7aee900ec5c95be8f6d2
-});
+
+    });
