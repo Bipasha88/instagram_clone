@@ -24,6 +24,7 @@ Route::middleware('auth:api')->group(function (){
     });
 
     Route::post('follow',[\App\Http\Controllers\UserController::class,'follow']);
+    Route::post('unfollow',[\App\Http\Controllers\UserController::class,'unfollow']);
     Route::get('followers',[\App\Http\Controllers\UserController::class,'followers']);
 
     });
