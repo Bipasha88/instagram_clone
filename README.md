@@ -1,62 +1,76 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Instagram-style Social API
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A **Laravel 8 REST API** for a photo-sharing social network, secured with **Laravel Passport (OAuth2)**. The user accounts and the follow system are finished. The database schema for posts, comments, tags, reactions and images uses **polymorphic relationships**.
 
-## About Laravel
+> 🚧 **Status:** registration, login and following/unfollowing are complete. Post, comment and reaction endpoints are the next step: their tables and models already exist.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Register and log in with Passport access tokens
+- Follow and unfollow users, and list a user's followers
+- A unique `(user_id, follower_id)` constraint stops duplicate follows
+- Repository pattern with interfaces, bound in a dedicated `RepositoryServiceProvider`
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## API
 
-## Learning Laravel
+| Method | Endpoint         | Auth   | Description            |
+|--------|------------------|--------|------------------------|
+| POST   | `/api/register`  | –      | Create an account      |
+| POST   | `/api/login`     | –      | Get an access token    |
+| GET    | `/api/user`      | Bearer | Current user           |
+| POST   | `/api/follow`    | Bearer | Follow a user          |
+| POST   | `/api/unfollow`  | Bearer | Unfollow a user        |
+| GET    | `/api/followers` | Bearer | List followers         |
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Data model
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+The schema uses Eloquent **polymorphic relationships**, so tags, reactions and images can be attached to any model (posts, comments, users) without separate tables for each.
 
-## Laravel Sponsors
+| Table                        | Purpose                                                      |
+|------------------------------|--------------------------------------------------------------|
+| `users`, `follows`           | Accounts and follower graph                                  |
+| `posts`, `comments`          | Content                                                      |
+| `tags` + `taggables`         | Polymorphic many-to-many: tag posts, comments, …             |
+| `reactions` + `reactables`   | Polymorphic many-to-many: react to posts or comments         |
+| `images` (`imageable`)       | Polymorphic one-to-many: attach images to any model          |
+| `settings`                   | Key/value application settings                               |
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+## Architecture
 
-### Premium Partners
+```
+app/
+├── Http/Controllers/          # AuthController, UserController
+├── Repository/
+│   ├── Interfaces/            # EloquentRepositoryInterface, UserRepositoryInterface, FollowRepositoryInterface
+│   └── Repositories/          # BaseRepository, UserRepository, FollowRepository
+├── Providers/RepositoryServiceProvider.php
+└── Models/                    # User, Post, Comment, Tag, Reaction, Follow, Setting, Imageable
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/)**
-- **[OP.GG](https://op.gg)**
+## Tech stack
 
-## Contributing
+PHP 7.3+/8 · Laravel 8 · Laravel Passport (OAuth2) · MySQL
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Getting started
 
-## Code of Conduct
+```bash
+git clone https://github.com/Bipasha88/instagram_clone.git
+cd instagram_clone
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+composer install
+cp .env.example .env
+php artisan key:generate
+# In .env: set the DB_* values
 
-## Security Vulnerabilities
+php artisan migrate
+php artisan passport:install
+php artisan serve
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Roadmap
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- [ ] Create, list and delete posts with image upload
+- [ ] Comments on posts
+- [ ] Reactions on posts and comments
+- [ ] Hashtags and tag search
+- [ ] News feed built from followed users
